@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>João Lucas · Game Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:   #060d08;
+  --bg2:  #0b160e;
+  --bg3:  #101f13;
+  --bg4:  #152318;
+  --g1:   #00ff6a;
+  --g2:   #00c44f;
+  --g3:   #008f38;
+  --g4:   #004d1f;
+  --g5:   #001f0d;
+  --pur:  #7c3aff;
+  --pur2: #9d6aff;
+  --pur3: #3d1a80;
+  --ora:  #ff7a00;
+  --text: #c8ffd4;
+  --muted:#4a7a56;
+  --bdr:  #1a3320;
+  --mono: 'Share Tech Mono', monospace;
+  --px:   'Press Start 2P', monospace;
+  --vt:   'VT323', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* dot matrix overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: radial-gradient(circle, rgba(0,255,106,0.018) 1px, transparent 1px);
+  background-size: 4px 4px;
+  pointer-events: none; z-index: 998;
+}
+
+/* scanlines */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.1) 3px, rgba(0,0,0,0.1) 4px);
+  pointer-events: none; z-index: 999;
+}
+
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(0,255,106,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,106,0.035) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 56px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 3rem;
+  background: var(--bg);
+  border-bottom: 2px solid var(--g4);
+}
+
+.nav-logo {
+  font-family: var(--px);
+  font-size: 0.52rem;
+  color: var(--g1);
+  text-shadow: 0 0 12px rgba(0,255,106,0.45);
+}
+
+nav ul { display: flex; gap: 2rem; list-style: none; }
+
+nav a {
+  font-family: var(--px);
+  font-size: 0.38rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.1s;
+}
+nav a:hover { color: var(--g1); text-shadow: 0 0 8px var(--g1); }
+
+/* ── PIXEL CORNER DOTS ── */
+.pc { position: absolute; width: 8px; height: 8px; background: var(--g1); }
+.pc-tl { top: -1px; left: -1px; }
+.pc-tr { top: -1px; right: -1px; }
+.pc-bl { bottom: -1px; left: -1px; }
+.pc-br { bottom: -1px; right: -1px; }
+
+/* ── LAYOUT ── */
+section, .wrap { position: relative; z-index: 1; }
+.container { max-width: 1080px; margin: 0 auto; padding: 5rem 3rem; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 8rem 3rem 4rem;
+  max-width: 1080px; margin: 0 auto;
+  position: relative; z-index: 1;
+}
+
+/* pixel sprite right side */
+.sprite-panel {
+  position: absolute; right: 3rem; top: 50%; transform: translateY(-50%);
+  width: 240px; height: 240px;
+  display: grid; grid-template-columns: repeat(16, 1fr);
+  gap: 1px; opacity: 0.5; pointer-events: none;
+}
+.sp { width: 100%; aspect-ratio: 1; background: var(--g4); }
+.sp.g1 { background: var(--g1); }
+.sp.g2 { background: var(--g2); }
+.sp.g3 { background: var(--g3); }
+.sp.pu { background: var(--pur); }
+.sp.or { background: var(--ora); }
+
+.hero-tag {
+  font-family: var(--px);
+  font-size: 0.46rem;
+  color: var(--g2);
+  letter-spacing: 0.08em;
+  margin-bottom: 1.8rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+.hero-tag::before { content: '▶'; color: var(--g1); }
+
+.hero h1 {
+  font-family: var(--px);
+  font-size: clamp(1.4rem, 3.2vw, 2.2rem);
+  line-height: 1.6;
+  color: var(--g1);
+  text-shadow: 3px 3px 0 var(--g4), 0 0 24px rgba(0,255,106,0.25);
+  margin-bottom: 0.5rem;
+}
+
+.hero h1 .outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--g1);
+}
+
+.hero-sub {
+  font-family: var(--vt);
+  font-size: 1.35rem;
+  color: var(--pur2);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.06em;
+}
+
+.hero-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  max-width: 480px;
+  margin-bottom: 2.5rem;
+  line-height: 1.9;
+}
+.hero-desc strong { color: var(--g2); }
+
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* ── BUTTONS ── */
+.btn {
+  font-family: var(--px);
+  font-size: 0.42rem;
+  letter-spacing: 0.05em;
+  padding: 0.85rem 1.4rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.08s;
+  cursor: pointer; border: none;
+}
+.btn:active { transform: translate(2px, 2px); }
+
+.btn-primary {
+  background: var(--g1);
+  color: #060d08;
+  box-shadow: 4px 4px 0 var(--g3);
+}
+.btn-primary:hover { background: #fff; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--pur2);
+  border: 2px solid var(--pur);
+  box-shadow: 4px 4px 0 var(--pur3);
+}
+.btn-ghost:hover { background: var(--pur3); color: #fff; }
+
+/* ── STATS BAR ── */
+.stats-bar {
+  position: relative; z-index: 1;
+  border-top: 2px solid var(--g4); border-bottom: 2px solid var(--g4);
+  background: var(--bg2);
+}
+.stats-inner {
+  max-width: 1080px; margin: 0 auto; padding: 1.2rem 3rem;
+  display: flex; flex-wrap: wrap; gap: 0;
+}
+.stat {
+  display: flex; flex-direction: column; gap: 0.3rem;
+  padding: 0.4rem 2.5rem 0.4rem 0;
+  border-right: 2px solid var(--bdr);
+  margin-right: 2.5rem;
+}
+.stat:last-child { border-right: none; margin-right: 0; }
+.stat-num {
+  font-family: var(--px);
+  font-size: 1rem;
+  color: var(--g1);
+  text-shadow: 2px 2px 0 var(--g4);
+}
+.stat-label {
+  font-family: var(--px);
+  font-size: 0.34rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* ── PIXEL DIVIDER ── */
+.px-div {
+  height: 2px;
+  background: repeating-linear-gradient(90deg, var(--g4) 0, var(--g4) 8px, transparent 8px, transparent 16px);
+  position: relative; z-index: 1;
+}
+
+/* ── SECTION HEADER ── */
+.section-header { margin-bottom: 2.5rem; }
+.section-tag {
+  font-family: var(--px);
+  font-size: 0.38rem;
+  color: var(--pur2);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.8rem;
+}
+.section-title {
+  font-family: var(--px);
+  font-size: clamp(0.85rem, 1.8vw, 1.15rem);
+  line-height: 1.5;
+  color: var(--g1);
+  text-shadow: 2px 2px 0 var(--g4);
+}
+
+/* ── GAMES GRID ── */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 3px; background: var(--bdr);
+  border: 2px solid var(--bdr);
+}
+.game-card {
+  background: var(--bg);
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.15s;
+}
+.game-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: repeating-linear-gradient(90deg, var(--g1) 0, var(--g1) 8px, transparent 8px, transparent 12px);
+  opacity: 0; transition: opacity 0.2s;
+}
+.game-card:hover { background: var(--bg3); }
+.game-card:hover::before { opacity: 1; }
+
+.game-platform {
+  font-family: var(--px);
+  font-size: 0.34rem;
+  color: var(--g2);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.game-platform::before { content: '■'; color: var(--g1); font-size: 0.45rem; }
+
+.game-title {
+  font-family: var(--px);
+  font-size: 0.52rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin-bottom: 0.8rem;
+}
+.game-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 1.2rem;
+}
+.game-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.tag {
+  font-family: var(--px);
+  font-size: 0.28rem;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--bdr);
+  color: var(--muted);
+}
+.tag.g { border-color: var(--g4); color: var(--g2); background: rgba(0,255,106,0.03); }
+.tag.p { border-color: var(--pur3); color: var(--pur2); background: rgba(124,58,255,0.05); }
+.tag.o { border-color: rgba(255,122,0,0.25); color: var(--ora); background: rgba(255,122,0,0.03); }
+
+/* ── EXPERIENCE ── */
+.exp-item {
+  display: grid; grid-template-columns: 185px 1fr;
+  gap: 2rem; padding: 2.5rem 0;
+  border-bottom: 2px solid var(--bdr);
+}
+.exp-item:first-child { border-top: 2px solid var(--bdr); }
+.exp-period {
+  font-family: var(--px);
+  font-size: 0.34rem;
+  color: var(--muted);
+  line-height: 1.9;
+  margin-bottom: 0.5rem;
+}
+.exp-company {
+  font-family: var(--px);
+  font-size: 0.46rem;
+  color: var(--g1);
+  line-height: 1.6;
+}
+.exp-role {
+  font-family: var(--px);
+  font-size: 0.28rem;
+  color: var(--pur2);
+  margin-top: 0.3rem; line-height: 1.8;
+}
+.exp-content h3 {
+  font-family: var(--px);
+  font-size: 0.48rem;
+  color: var(--text);
+  margin-bottom: 0.8rem; line-height: 1.7;
+}
+.exp-content p {
+  font-size: 0.84rem; color: var(--muted);
+  line-height: 1.8; margin-bottom: 1rem;
+}
+.exp-highlights { display: flex; flex-direction: column; gap: 0.5rem; }
+.exp-highlight {
+  font-size: 0.82rem; color: var(--muted);
+  padding-left: 1.1rem; position: relative; line-height: 1.6;
+}
+.exp-highlight::before { content: '▸'; position: absolute; left: 0; color: var(--g1); font-size: 0.7rem; }
+
+/* ── SKILLS ── */
+.skills-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 3px; background: var(--bdr); border: 2px solid var(--bdr);
+}
+.skill-block {
+  background: var(--bg); padding: 1.6rem;
+  position: relative; overflow: hidden;
+  transition: background 0.15s;
+}
+.skill-block:hover { background: var(--bg3); }
+.skill-block::after {
+  content: '';
+  position: absolute; bottom: 0; right: 0;
+  border-style: solid; border-width: 0 0 12px 12px;
+  border-color: transparent transparent var(--g4) transparent;
+  transition: border-color 0.15s;
+}
+.skill-block:hover::after { border-color: transparent transparent var(--g2) transparent; }
+.skill-icon {
+  font-family: var(--px); font-size: 0.55rem;
+  color: var(--g4); margin-bottom: 0.8rem;
+  transition: color 0.15s;
+}
+.skill-block:hover .skill-icon { color: var(--g3); }
+.skill-title {
+  font-family: var(--px); font-size: 0.36rem;
+  color: var(--g2); letter-spacing: 0.06em;
+  margin-bottom: 0.9rem; line-height: 1.7;
+}
+.skill-items { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+/* ── HP BARS ── */
+.hp-wrap {
+  max-width: 560px; margin-bottom: 3rem;
+  padding: 1.8rem; border: 2px solid var(--bdr);
+  background: var(--bg2); position: relative;
+}
+.hp-label-head {
+  font-family: var(--px); font-size: 0.35rem;
+  color: var(--pur2); letter-spacing: 0.1em;
+  margin-bottom: 1.2rem;
+}
+.hp-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.65rem; }
+.hp-name {
+  font-family: var(--px); font-size: 0.32rem;
+  color: var(--muted); width: 90px; flex-shrink: 0; line-height: 1.8;
+}
+.hp-track {
+  flex: 1; height: 10px; background: var(--bg3);
+  border: 1px solid var(--bdr); position: relative; overflow: hidden;
+}
+.hp-fill {
+  position: absolute; top: 0; left: 0; bottom: 0; width: 0;
+  background: repeating-linear-gradient(90deg, var(--g1) 0, var(--g1) 7px, var(--g2) 7px, var(--g2) 9px);
+  transition: width 1.3s cubic-bezier(0.22,1,0.36,1);
+}
+.hp-fill.p {
+  background: repeating-linear-gradient(90deg, var(--pur2) 0, var(--pur2) 7px, var(--pur) 7px, var(--pur) 9px);
+}
+.hp-pct {
+  font-family: var(--px); font-size: 0.3rem;
+  color: var(--g2); width: 28px; text-align: right; line-height: 1.8;
+}
+
+/* ── EDUCATION ── */
+.edu-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 3px; background: var(--bdr); border: 2px solid var(--bdr);
+}
+.edu-card {
+  background: var(--bg); padding: 1.8rem;
+  position: relative; transition: background 0.15s;
+}
+.edu-card:hover { background: var(--bg3); }
+.edu-period {
+  font-family: var(--px); font-size: 0.32rem;
+  color: var(--muted); margin-bottom: 0.6rem; line-height: 1.8;
+}
+.edu-degree {
+  font-family: var(--px); font-size: 0.44rem;
+  color: var(--text); margin-bottom: 0.5rem; line-height: 1.7;
+}
+.edu-school {
+  font-family: var(--px); font-size: 0.34rem;
+  color: var(--g2); line-height: 1.7;
+}
+
+/* ── CONTACT ── */
+.contact-section {
+  background: var(--bg2); border-top: 2px solid var(--g4); border-bottom: 2px solid var(--g4);
+  position: relative; z-index: 1;
+}
+.contact-inner {
+  max-width: 1080px; margin: 0 auto; padding: 5rem 3rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+}
+.contact-left h2 {
+  font-family: var(--px);
+  font-size: clamp(0.75rem, 1.8vw, 1.1rem);
+  line-height: 1.8; color: var(--g1);
+  text-shadow: 2px 2px 0 var(--g4);
+  margin-bottom: 1rem;
+}
+.contact-left p { font-size: 0.87rem; color: var(--muted); line-height: 1.8; }
+.online-badge {
+  margin-top: 1.5rem;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--px); font-size: 0.33rem;
+  color: var(--g2); border: 1px solid var(--g4);
+  padding: 0.45rem 0.8rem; background: rgba(0,255,106,0.04);
+}
+.blink-dot {
+  width: 8px; height: 8px;
+  background: var(--g1);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.contact-links { display: flex; flex-direction: column; gap: 2px; }
+.contact-link {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.2rem;
+  border: 2px solid var(--bdr);
+  text-decoration: none; color: var(--text);
+  background: var(--bg); transition: all 0.12s;
+  position: relative; overflow: hidden;
+}
+.contact-link::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--g1); transform: scaleY(0); transition: transform 0.12s;
+}
+.contact-link:hover { border-color: var(--g4); background: var(--bg3); color: var(--g1); }
+.contact-link:hover::before { transform: scaleY(1); }
+.link-icon {
+  font-family: var(--px); font-size: 0.4rem;
+  color: var(--g3); width: 2.2rem; text-align: center; flex-shrink: 0;
+}
+.link-label {
+  font-family: var(--px); font-size: 0.28rem;
+  color: var(--muted); display: block;
+  margin-bottom: 0.15rem; letter-spacing: 0.06em; line-height: 1.8;
+}
+.link-val { font-size: 0.82rem; }
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  max-width: 1080px; margin: 0 auto; padding: 1.5rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 2px solid var(--bdr);
+}
+.footer-l { font-family: var(--px); font-size: 0.34rem; color: var(--g4); }
+.footer-r { font-family: var(--px); font-size: 0.3rem; color: var(--muted); display: flex; gap: 1.2rem; }
+
+/* ── FADE UP ── */
+.fade-up { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.fade-up.visible { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav { padding: 0 1.2rem; }
+  nav ul { gap: 0.8rem; }
+  .hero, .container { padding-left: 1.2rem; padding-right: 1.2rem; }
+  .stats-inner { padding: 0 1.2rem; gap: 1rem; }
+  .exp-item { grid-template-columns: 1fr; gap: 0.4rem; }
+  .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+  footer { padding: 1.2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  .sprite-panel { display: none; }
+  .hero h1 { font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">▶ JLUCAS.DEV</div>
+  <ul>
+    <li><a href="#games">GAMES</a></li>
+    <li><a href="#experience">EXP</a></li>
+    <li><a href="#skills">SKILLS</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="sprite-panel" id="sprite"></div>
+
+  <div>
+    <div class="hero-tag">GAME DEVELOPER &amp; DESIGNER</div>
+    <h1>JOÃO<br><span class="outline">LUCAS</span><span style="color:var(--g1);animation:blink 1s steps(1) infinite;display:inline-block">_</span></h1>
+    <div class="hero-sub">// LEVEL 3+ · NINTENDO CERTIFIED</div>
+    <p class="hero-desc">
+      Building games that <strong>actually ship</strong>. 3 titles on the Nintendo eShop,
+      multiplatform specialist with Unity, Unreal &amp; GameMaker. From core loop
+      design to Joy-Con input systems — full stack.
+    </p>
+    <div class="hero-cta">
+      <a href="https://joao-lucas-almeida.itch.io/" target="_blank" class="btn btn-primary">▶ PLAY MY GAMES</a>
+      <a href="#contact" class="btn btn-ghost">[ CONTACT ]</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><span class="stat-num">03</span><span class="stat-label">NINTENDO<br>ESHOP RELEASES</span></div>
+    <div class="stat"><span class="stat-num">3+</span><span class="stat-label">YEARS IN<br>GAME INDUSTRY</span></div>
+    <div class="stat"><span class="stat-num">~100</span><span class="stat-label">CONCEPT ART<br>PIECES CREATED</span></div>
+    <div class="stat"><span class="stat-num">04</span><span class="stat-label">GAME ENGINES<br>MASTERED</span></div>
+    <div class="stat"><span class="stat-num">B2</span><span class="stat-label">CAMBRIDGE<br>ENGLISH CAE</span></div>
+  </div>
+</div>
+
+<div class="px-div"></div>
+
+<!-- GAMES -->
+<div id="games" class="wrap">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-tag">// SHIPPED_TITLES.EXE</div>
+      <h2 class="section-title">GAMES I'VE BUILT</h2>
+    </div>
+    <div class="games-grid">
+
+      <div class="game-card fade-up">
+        <div class="pc pc-tl"></div>
+        <div class="game-platform">NINTENDO SWITCH · ESHOP</div>
+        <div class="game-title">CATTERROR:<br>THE ABANDONED HOUSE</div>
+        <p class="game-desc">Horror title ported and published on the Nintendo eShop. Joy-Con input system rewrite, asset optimization for Switch hardware constraints.</p>
+        <div class="game-tags">
+          <span class="tag g">Unity</span><span class="tag g">Nintendo SDK</span>
+          <span class="tag">Porting</span><span class="tag">C#</span><span class="tag">Horror</span>
+        </div>
+      </div>
+
+      <div class="game-card fade-up">
+        <div class="pc pc-tl"></div>
+        <div class="game-platform">NINTENDO SWITCH · ESHOP</div>
+        <div class="game-title">PIZZA MAKER</div>
+        <p class="game-desc">Casual cooking game on Nintendo eShop. Handled performance optimization, platform compliance pipeline and post-launch stability monitoring.</p>
+        <div class="game-tags">
+          <span class="tag g">Unity</span><span class="tag g">Joy-Con</span>
+          <span class="tag">Performance</span><span class="tag">eShop</span><span class="tag">Casual</span>
+        </div>
+      </div>
+
+      <div class="game-card fade-up">
+        <div class="pc pc-tl"></div>
+        <div class="game-platform">NINTENDO SWITCH · ESHOP</div>
+        <div class="game-title">FELINEA TALES</div>
+        <p class="game-desc">Story-driven title on Nintendo eShop. Owned the full compliance pipeline: debug, asset rebuild, input rework, submission and launch.</p>
+        <div class="game-tags">
+          <span class="tag g">Unity</span><span class="tag g">Nintendo SDK</span>
+          <span class="tag">Build Pipelines</span><span class="tag">JIRA</span>
+        </div>
+      </div>
+
+      <div class="game-card fade-up">
+        <div class="pc pc-tl"></div>
+        <div class="game-platform">iOS / ANDROID</div>
+        <div class="game-title">MOBILE CO-OP<br>PLATFORMER</div>
+        <p class="game-desc">Puzzle-platformer with offline co-op. Physics-based character controls and stability challenges tackled across iOS and Android.</p>
+        <div class="game-tags">
+          <span class="tag p">Unity</span><span class="tag">Co-op</span>
+          <span class="tag">Mobile</span><span class="tag">Physics</span><span class="tag">Platformer</span>
+        </div>
+      </div>
+
+      <div class="game-card fade-up">
+        <div class="pc pc-tl"></div>
+        <div class="game-platform">PC · WEB3</div>
+        <div class="game-title">DATA2073</div>
+        <p class="game-desc">Multiplayer card-based NFT game. Designed core game loop, progression and reward systems. Created concept art for ~100 unique playable robots.</p>
+        <div class="game-tags">
+          <span class="tag o">Card Game</span><span class="tag">Game Design</span>
+          <span class="tag">Concept Art</span><span class="tag">Multiplayer</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="px-div"></div>
+
+<!-- EXPERIENCE -->
+<div id="experience" style="background:var(--bg2);position:relative;z-index:1;">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-tag">// WORK_HISTORY.LOG</div>
+      <h2 class="section-title">WHERE I'VE SHIPPED</h2>
+    </div>
+
+    <div class="exp-item fade-up">
+      <div>
+        <div class="exp-period">APR 2024<br>— PRESENT</div>
+        <div class="exp-company">GAME<br>NACIONAL</div>
+        <div class="exp-role">GAME DEV &amp; DESIGNER</div>
+      </div>
+      <div class="exp-content">
+        <h3>MULTIPLATFORM DEV &amp; NINTENDO PUBLISHING</h3>
+        <p>Engineered core mechanics across multiplatform titles. Owned the full porting pipeline to Nintendo Switch, from compliance to eShop release.</p>
+        <div class="exp-highlights">
+          <div class="exp-highlight">Ported and released 3 games on Nintendo eShop with robust post-launch performance</div>
+          <div class="exp-highlight">Rewrote input systems for Joy-Con compatibility across all titles</div>
+          <div class="exp-highlight">Debugged and rebuilt features to resolve Nintendo platform compliance issues</div>
+          <div class="exp-highlight">Collaborated with artists and producers to harmonize game feel cross-platform</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item fade-up">
+      <div>
+        <div class="exp-period">JUL 2022<br>— OCT 2022</div>
+        <div class="exp-company">GAME<br>FORM</div>
+        <div class="exp-role">DESIGNER &amp; CONCEPT ARTIST</div>
+      </div>
+      <div class="exp-content">
+        <h3>GAME DESIGN &amp; VISUAL IDENTITY — DATA2073</h3>
+        <p>Early-stage game designer and concept artist on a multiplayer card-based NFT game, shaping the full design foundation from scratch.</p>
+        <div class="exp-highlights">
+          <div class="exp-highlight">Developed core gameplay concepts, progression systems and reward mechanics</div>
+          <div class="exp-highlight">Created concept art and sketches for nearly 100 unique playable robots</div>
+          <div class="exp-highlight">Shaped the early game loop structure in the initial development phase</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item fade-up">
+      <div>
+        <div class="exp-period">JAN 2022<br>— JUL 2022</div>
+        <div class="exp-company">AGÊNCIA<br>COMBOGÓ</div>
+        <div class="exp-role">GAME DEVELOPER</div>
+      </div>
+      <div class="exp-content">
+        <h3>MOBILE PUZZLE-PLATFORMER — iOS &amp; ANDROID</h3>
+        <p>Developed a mobile puzzle-platformer with offline co-op mechanics, tackling performance and stability challenges across both platforms.</p>
+        <div class="exp-highlights">
+          <div class="exp-highlight">Implemented character controls and physics-based gameplay systems</div>
+          <div class="exp-highlight">Used JIRA for issue tracking and streamlined bug resolution workflow</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="px-div"></div>
+
+<!-- SKILLS -->
+<div id="skills" class="wrap">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-tag">// LOADOUT.INI</div>
+      <h2 class="section-title">TOOLS OF THE TRADE</h2>
+    </div>
+
+    <!-- HP Bars -->
+    <div class="hp-wrap fade-up" id="hp-section">
+      <div class="pc pc-tl"></div>
+      <div class="pc pc-br" style="background:var(--pur)"></div>
+      <div class="hp-label-head">// CORE SKILLS [ HP BAR ]</div>
+      <div class="hp-row"><span class="hp-name">UNITY 6</span><div class="hp-track"><div class="hp-fill" data-w="92"></div></div><span class="hp-pct">92%</span></div>
+      <div class="hp-row"><span class="hp-name">GAME DESIGN</span><div class="hp-track"><div class="hp-fill" data-w="88"></div></div><span class="hp-pct">88%</span></div>
+      <div class="hp-row"><span class="hp-name">C#</span><div class="hp-track"><div class="hp-fill" data-w="85"></div></div><span class="hp-pct">85%</span></div>
+      <div class="hp-row"><span class="hp-name">UNREAL 5</span><div class="hp-track"><div class="hp-fill p" data-w="72"></div></div><span class="hp-pct">72%</span></div>
+      <div class="hp-row"><span class="hp-name">C++</span><div class="hp-track"><div class="hp-fill p" data-w="68"></div></div><span class="hp-pct">68%</span></div>
+      <div class="hp-row"><span class="hp-name">BLENDER</span><div class="hp-track"><div class="hp-fill" data-w="65"></div></div><span class="hp-pct">65%</span></div>
+    </div>
+
+    <!-- Skill blocks -->
+    <div class="skills-grid">
+      <div class="skill-block fade-up">
+        <div class="skill-icon">[ENG]</div>
+        <div class="skill-title">GAME ENGINES</div>
+        <div class="skill-items">
+          <span class="tag g">Unity 6</span><span class="tag g">Unreal 5</span><span class="tag g">GameMaker</span>
+        </div>
+      </div>
+      <div class="skill-block fade-up">
+        <div class="skill-icon">[COD]</div>
+        <div class="skill-title">PROGRAMMING</div>
+        <div class="skill-items">
+          <span class="tag">C#</span><span class="tag">C++</span><span class="tag">Java</span><span class="tag">Python</span>
+        </div>
+      </div>
+      <div class="skill-block fade-up">
+        <div class="skill-icon">[CON]</div>
+        <div class="skill-title">CONSOLE DEV</div>
+        <div class="skill-items">
+          <span class="tag g">Nintendo Switch SDK</span><span class="tag g">Joy-Con Input</span>
+          <span class="tag g">Build Pipelines</span><span class="tag g">eShop Compliance</span>
+        </div>
+      </div>
+      <div class="skill-block fade-up">
+        <div class="skill-icon">[DES]</div>
+        <div class="skill-title">GAME DESIGN</div>
+        <div class="skill-items">
+          <span class="tag p">Core Loop</span><span class="tag p">Reward Systems</span>
+          <span class="tag p">Progression</span><span class="tag p">UI/UX</span><span class="tag p">Level Design</span>
+        </div>
+      </div>
+      <div class="skill-block fade-up">
+        <div class="skill-icon">[ART]</div>
+        <div class="skill-title">ART &amp; ANIMATION</div>
+        <div class="skill-items">
+          <span class="tag">Blender</span><span class="tag">Photoshop</span>
+          <span class="tag">Illustrator</span><span class="tag">Storyboarding</span>
+        </div>
+      </div>
+      <div class="skill-block fade-up">
+        <div class="skill-icon">[AI+]</div>
+        <div class="skill-title">AI INTEGRATION</div>
+        <div class="skill-items">
+          <span class="tag o">Dialogue Systems</span><span class="tag o">Trainer Feedback</span>
+          <span class="tag o">Adaptive Gameplay</span><span class="tag o">LLM Integration</span>
+        </div>
+      </div>
+      <div class="skill-block fade-up">
+        <div class="skill-icon">[WRK]</div>
+        <div class="skill-title">WORKFLOW</div>
+        <div class="skill-items">
+          <span class="tag">Git</span><span class="tag">JIRA</span><span class="tag">Trello</span>
+          <span class="tag">Miro</span><span class="tag">MySQL</span><span class="tag">VS Code</span>
+        </div>
+      </div>
+      <div class="skill-block fade-up">
+        <div class="skill-icon">[LNG]</div>
+        <div class="skill-title">LANGUAGES</div>
+        <div class="skill-items">
+          <span class="tag g">Portuguese — Native</span>
+          <span class="tag g">English — B2 CAE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div style="margin-top:4.5rem">
+      <div class="section-header fade-up">
+        <div class="section-tag">// EDUCATION.DAT</div>
+        <h2 class="section-title">ACADEMIC BACKGROUND</h2>
+      </div>
+      <div class="edu-grid">
+        <div class="edu-card fade-up">
+          <div class="pc pc-br" style="background:var(--pur)"></div>
+          <div class="edu-period">2023 — 2025</div>
+          <div class="edu-degree">MASTER'S IN<br>SOFTWARE ENGINEERING</div>
+          <div class="edu-school">▸ CESAR SCHOOL</div>
+        </div>
+        <div class="edu-card fade-up">
+          <div class="pc pc-br" style="background:var(--pur)"></div>
+          <div class="edu-period">2023 — 2024</div>
+          <div class="edu-degree">POSTGRADUATE IN<br>GAME DEVELOPMENT</div>
+          <div class="edu-school">▸ ESTÁCIO</div>
+        </div>
+        <div class="edu-card fade-up">
+          <div class="pc pc-br" style="background:var(--pur)"></div>
+          <div class="edu-period">2019 — 2022</div>
+          <div class="edu-degree">BACHELOR'S IN<br>GAME DEVELOPMENT</div>
+          <div class="edu-school">▸ UNICAP</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="px-div"></div>
+
+<!-- CONTACT -->
+<div id="contact" class="contact-section">
+  <div class="contact-inner">
+    <div class="contact-left fade-up">
+      <h2>LET'S BUILD<br>SOMETHING<br><span style="color:var(--ora)">AWESOME.</span></h2>
+      <p>Open to full-time roles, freelance projects and interesting collabs. Especially excited about console and multiplatform work.</p>
+      <div class="online-badge">
+        <div class="blink-dot"></div>
+        AVAILABLE FOR OPPORTUNITIES
+      </div>
+    </div>
+    <div class="contact-links fade-up">
+      <a href="mailto:jlucasap@hotmail.com" class="contact-link">
+        <span class="link-icon">[✉]</span>
+        <div><span class="link-label">EMAIL</span><span class="link-val">jlucasap@hotmail.com</span></div>
+      </a>
+      <a href="https://www.linkedin.com/in/joao-lucas-almeida-pereira/" target="_blank" class="contact-link">
+        <span class="link-icon">[in]</span>
+        <div><span class="link-label">LINKEDIN</span><span class="link-val">joao-lucas-almeida-pereira</span></div>
+      </a>
+      <a href="https://github.com/Joao-Lucas-AP" target="_blank" class="contact-link">
+        <span class="link-icon">[gh]</span>
+        <div><span class="link-label">GITHUB</span><span class="link-val">Joao-Lucas-AP</span></div>
+      </a>
+      <a href="https://80.lv/talent/p/joo-almeida" target="_blank" class="contact-link">
+        <span class="link-icon">[80]</span>
+        <div><span class="link-label">80LVL TALENT</span><span class="link-val">80.lv/talent/p/joo-almeida</span></div>
+      </a>
+      <a href="https://joao-lucas-almeida.itch.io/" target="_blank" class="contact-link">
+        <span class="link-icon">[▶]</span>
+        <div><span class="link-label">ITCH.IO</span><span class="link-val">joao-lucas-almeida.itch.io</span></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-l">© 2025 JOÃO LUCAS ALMEIDA PEREIRA</span>
+  <div class="footer-r">
+    <span style="color:var(--g2)">GAME DEV</span>
+    <span>·</span>
+    <span>RECIFE · BR</span>
+    <span>·</span>
+    <span style="color:var(--pur2)">LEVEL 3+</span>
+  </div>
+</footer>
+
+<script>
+// Pixel sprite (16x16 character portrait)
+(function(){
+  const p = document.getElementById('sprite');
+  if(!p) return;
+  // 0=empty, 1=dark green bg, 2=bright green, 3=mid green, 4=purple, 5=orange
+  const m = [
+    0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,
+    0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+    0,1,1,2,2,1,1,1,1,1,1,2,2,1,1,0,
+    0,1,1,2,2,1,1,1,1,1,1,2,2,1,1,0,
+    0,1,1,1,1,3,1,1,1,1,3,1,1,1,1,0,
+    0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,
+    0,1,3,1,1,1,3,3,3,3,1,1,1,3,1,0,
+    0,0,1,3,3,3,3,3,3,3,3,3,3,1,0,0,
+    0,0,4,4,2,2,2,2,2,2,2,2,4,4,0,0,
+    0,4,4,4,2,2,2,2,2,2,2,2,4,4,4,0,
+    4,4,1,1,2,2,1,1,1,1,2,2,1,1,4,4,
+    4,4,1,1,1,1,1,1,1,1,1,1,1,1,4,4,
+    0,4,1,1,1,1,1,1,1,1,1,1,1,1,4,0,
+    0,0,5,1,1,1,1,1,1,1,1,1,1,5,0,0,
+    0,0,5,5,1,1,1,1,1,1,1,1,5,5,0,0,
+    0,0,0,5,5,0,0,0,0,0,0,5,5,0,0,0,
+  ];
+  const cl = ['','g3','g1','g2','pu','or'];
+  m.forEach(v => {
+    const d = document.createElement('div');
+    d.className = 'sp' + (cl[v] ? ' ' + cl[v] : '');
+    p.appendChild(d);
+  });
+})();
+
+// Fade in on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if(e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 55);
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// HP bars
+const hpObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.querySelectorAll('.hp-fill').forEach(b => {
+        setTimeout(() => { b.style.width = b.dataset.w + '%'; }, 250);
+      });
+      hpObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+const hpEl = document.getElementById('hp-section');
+if(hpEl) hpObs.observe(hpEl);
+</script>
+</body>
+</html>
