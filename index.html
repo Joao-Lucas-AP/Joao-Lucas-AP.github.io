@@ -7,89 +7,128 @@
 <meta name="description" content="Portfólio de João Lucas Almeida Pereira, Unity Developer e Gameplay Programmer em Recife. 4 jogos portados para Nintendo Switch.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Germania+One&family=Alegreya:ital,wght@0,500;0,700;1,500&family=Courier+Prime:wght@400;700&family=Noto+Sans+Runic&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#0B2F57; --blue:#1B66D1; --sky:#DCEBFC;
-  --green:#119A52; --mint:#DDF4E6; --paper:#F4F9F7; --ink:#12283B; --muted:#4D6275;
-  --head:"Bricolage Grotesque",Georgia,sans-serif; --body:"Figtree",system-ui,sans-serif;
+  --forest:#0C2519; --moss:#1F5236; --leaf:#3E8A58; --sage:#D5E4CC; --soft:#9DB7A5;
+  --mist:#8CC1DC; --gold:#E2B94E; --gold-d:#9C7A2E;
+  --head:"Cinzel",Georgia,serif; --body:"IM Fell English",Georgia,serif; --tech:"Share Tech Mono",ui-monospace,monospace; --rune:"Noto Sans Runic","Segoe UI Historic",serif;
+  --doodle:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' fill='none' stroke='%23E2B94E' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='80' cy='80' r='38'/%3E%3Ccircle cx='80' cy='80' r='28' stroke-dasharray='3 5'/%3E%3Cpath d='M80 56l5 19 19 5-19 5-5 19-5-19-19-5 19-5z'/%3E%3Cpath d='M200 40h60v50h60M260 90v50h30'/%3E%3Ccircle cx='200' cy='40' r='4'/%3E%3Ccircle cx='320' cy='90' r='4'/%3E%3Ccircle cx='290' cy='140' r='4'/%3E%3Cpath d='M330 300c0-20 20-30 35-20 18 12 10 40-12 42-26 2-36-28-18-46'/%3E%3Cpath d='M70 300a30 30 0 1 0 28 40 24 24 0 1 1-28-40z'/%3E%3Cpath d='M210 230l22 13v26l-22 13-22-13v-26zM210 245l11 20h-22z'/%3E%3Cpath d='M150 350v44M150 362l18-12M150 376l18-12'/%3E%3Cpath d='M20 190q15-18 30 0t30 0 30 0'/%3E%3Cpath d='M360 190v30M345 205h30'/%3E%3Cpath d='M380 380l8-14 8 14z'/%3E%3Ccircle cx='250' cy='360' r='2'/%3E%3Ccircle cx='120' cy='200' r='2'/%3E%3Ccircle cx='390' cy='40' r='2'/%3E%3C/svg%3E");
 }
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.6;font-size:17px}
+body{font-family:var(--body);color:var(--sage);background:var(--forest);line-height:1.65;font-size:19px;position:relative}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 80% 0%,#E8772E2E 0,transparent 35%),linear-gradient(160deg,var(--forest) 0%,var(--moss) 100%)}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:var(--doodle);background-size:420px;opacity:.16}
+header,main,footer{position:relative;z-index:1}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+:focus-visible{outline:3px solid var(--mist);outline-offset:3px}
 .wrap{max-width:1040px;margin:0 auto;padding:0 22px}
-h1,h2,h3{font-family:var(--head);line-height:1.1}
+h1,h2,h3{font-family:var(--head);line-height:1.15;font-weight:700}
+.glow{text-shadow:0 0 10px currentColor}
+
+/* runas tecnológicas */
+main>section+section::before{content:"ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ";display:block;text-align:center;font-family:var(--rune);letter-spacing:.7em;color:var(--mist);text-shadow:0 0 8px var(--mist);opacity:.75;margin:-34px 0 40px;font-size:1.1rem}
+h2::before{content:attr(data-r);font-family:var(--rune);color:var(--mist);text-shadow:0 0 10px var(--mist);margin-right:.5em;font-weight:400}
 
 /* topo */
-.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 55%,var(--green) 130%);color:#fff;padding:28px 0 84px}
-nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-weight:500}
-nav .logo{font-family:var(--head);font-weight:800;font-size:1.15rem;text-decoration:none}
+.hero{position:relative;overflow:hidden;color:var(--sage);padding:28px 0 96px;border-bottom:1px solid var(--gold-d);box-shadow:0 1px 0 var(--forest),0 3px 0 var(--gold-d)}
+.hero::after{content:"ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ";position:absolute;left:0;right:0;bottom:16px;text-align:center;font-family:var(--rune);font-size:2rem;letter-spacing:.9em;white-space:nowrap;color:var(--gold);text-shadow:0 0 12px var(--gold);opacity:.25;pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--tech)}
+nav .logo{font-family:var(--head);font-weight:700;font-size:1.2rem;text-decoration:none;letter-spacing:.06em;color:var(--gold)}
 nav ul{display:flex;gap:22px;list-style:none;padding:0}
-nav a{text-decoration:none;opacity:.9}
-nav a:hover{opacity:1;text-decoration:underline}
-.hero-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:end;margin-top:72px}
-.hero h1{font-size:clamp(2.6rem,7vw,4.8rem);font-weight:800;letter-spacing:-.02em}
-.hero p{max-width:52ch;margin-top:20px;font-size:1.15rem;color:#E6F1FF}
+nav a{text-decoration:none;font-size:.95rem}
+nav a:hover{color:var(--gold)}
+.sys{font-family:var(--tech);color:var(--mist);font-size:.95rem;margin-top:64px;text-shadow:0 0 8px #F28C3866}
+.hero-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:center;margin-top:14px}
+.hero h1{font-size:clamp(2.2rem,5.6vw,3.9rem);color:#F2F8EC;text-shadow:0 0 24px #E2B94E40}
+.hero p{max-width:50ch;margin-top:20px;font-size:1.25rem}
 .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-.btn{display:inline-block;padding:11px 20px;border-radius:999px;font-weight:600;text-decoration:none;border:2px solid transparent}
-.btn.solid{background:var(--mint);color:var(--navy)}
-.btn.solid:hover{background:#fff}
-.btn.line{border-color:rgba(255,255,255,.65);color:#fff}
-.btn.line:hover{background:rgba(255,255,255,.14)}
-.switch{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:26px}
-.switch strong{display:block;font-family:var(--head);font-size:4.2rem;line-height:1;color:var(--mint)}
-.switch span{display:block;margin-top:8px;color:#E6F1FF}
+.btn{display:inline-block;padding:10px 22px;font-family:var(--tech);font-size:1rem;text-decoration:none;border:1px solid var(--gold);color:var(--gold);clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+.btn.solid{background:var(--gold);color:var(--forest);font-weight:700}
+.btn.solid:hover{background:#F5D77E;box-shadow:0 0 18px var(--gold)}
+.btn.line:hover{border-color:var(--mist);color:var(--mist);background:#F28C381A}
+.switch{border:1px solid var(--gold);padding:28px;text-align:center;background:#0C251999;position:relative;clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px)}
+.switch::before{content:"ᛋ ᚦ ᛋ";position:absolute;top:8px;left:0;right:0;font-family:var(--rune);color:var(--mist);text-shadow:0 0 8px var(--mist);font-size:.95rem;letter-spacing:.6em}
+.switch strong{display:block;font-family:var(--head);font-size:4.6rem;line-height:1;color:var(--gold);text-shadow:0 0 22px #E2B94E80;margin-top:12px}
+.switch span{display:block;margin-top:8px}
 
-section{padding:72px 0}
-h2{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;color:var(--navy);margin-bottom:10px}
-.lead{color:var(--muted);max-width:60ch;margin-bottom:34px}
+section{padding:76px 0}
+h2{font-size:clamp(1.6rem,3.6vw,2.2rem);color:var(--gold);margin-bottom:12px}
+.lead{color:var(--soft);max-width:60ch;margin-bottom:34px;font-style:italic}
 
 /* sobre */
 .about{display:grid;grid-template-columns:1.3fr 1fr;gap:44px}
 .about p+p{margin-top:14px}
 .skills{display:grid;gap:14px;align-content:start}
-.skills div{background:#fff;border-left:5px solid var(--green);border-radius:10px;padding:14px 16px}
-.skills div:nth-child(even){border-left-color:var(--blue)}
-.skills b{display:block;font-family:var(--head);color:var(--navy)}
-.skills span{color:var(--muted);font-size:.95rem}
+.skills div{background:#0C251999;border:1px solid var(--gold-d);border-left:4px solid var(--gold);padding:12px 16px}
+.skills div:nth-child(3){border-left-color:var(--mist)}
+.skills b{display:block;font-family:var(--head);color:#F2F8EC;font-size:.98rem}
+.skills span{color:var(--soft);font-family:var(--tech);font-size:.9rem}
 
 /* projetos */
-.projects{background:#fff}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:26px}
-.card{display:flex;flex-direction:column;background:var(--paper);border-radius:16px;overflow:hidden;border:1px solid #D5E4E0}
-.thumb{aspect-ratio:16/10;background:linear-gradient(135deg,var(--blue),var(--green));display:grid;place-items:center;color:#fff;font-family:var(--head);font-weight:800;font-size:2.2rem;overflow:hidden}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
-.body h3{font-size:1.35rem;color:var(--navy)}
-.meta{font-size:.9rem;color:var(--green);font-weight:600}
-.body p{color:var(--muted);font-size:.98rem;flex:1}
-.tags{display:flex;flex-wrap:wrap;gap:6px}
-.tags li{list-style:none;background:var(--sky);color:var(--navy);font-size:.8rem;font-weight:600;padding:3px 10px;border-radius:999px}
-.links{display:flex;gap:14px;flex-wrap:wrap;margin-top:4px}
-.links a{font-weight:600;color:var(--blue);text-decoration:none;border-bottom:2px solid var(--green)}
-.links a:hover{color:var(--green)}
+.projects{background:#0C251966}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:28px}
+.card{position:relative;display:flex;flex-direction:column;background:#0C2519d9;border:1px solid var(--gold-d);clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);transition:box-shadow .2s,transform .2s}
+.card:hover{transform:translateY(-3px)}
+.card::after{content:"ᚱ";position:absolute;top:10px;right:14px;font-family:var(--rune);color:var(--mist);text-shadow:0 0 8px var(--forest),0 0 10px var(--mist);font-size:1.2rem}
+.thumb{aspect-ratio:16/10;background:linear-gradient(135deg,var(--forest),var(--leaf));display:grid;place-items:center;text-align:center;padding:10px;color:var(--gold);font-family:var(--head);font-weight:700;font-size:1.5rem;overflow:hidden;border-bottom:1px solid var(--gold-d)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.85) hue-rotate(30deg) brightness(.92)}
+.body{padding:20px 22px 24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.body h3{font-size:1.2rem;color:#F2F8EC}
+.meta{font-family:var(--tech);font-size:.9rem;color:var(--mist)}
+.body p{color:var(--soft);font-size:1rem;flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:6px;padding:0}
+.tags li{list-style:none;border:1px solid var(--leaf);color:var(--sage);font-family:var(--tech);font-size:.8rem;padding:1px 9px}
+.links{display:flex;gap:16px;flex-wrap:wrap;margin-top:4px}
+.links a{font-family:var(--tech);font-size:.95rem;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold)}
+.links a:hover{color:var(--mist);border-color:var(--mist)}
 
 /* trajetória */
-.line{border-left:3px solid var(--blue);padding-left:24px;display:grid;gap:28px;max-width:760px}
-.line h3{font-size:1.2rem;color:var(--navy)}
-.line .meta{display:block;margin:2px 0 6px}
-.line p{color:var(--muted)}
+.trilha{border-left:1px solid var(--gold-d);padding-left:26px;display:grid;gap:28px;max-width:760px}
+.trilha h3{font-size:1.1rem;color:#F2F8EC}
+.trilha .meta{display:block;margin:2px 0 6px}
+.trilha p{color:var(--soft)}
 
 /* contato */
-.contact{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;text-align:center}
-.contact h2{color:#fff}
-.contact p{color:#E6F1FF;margin:0 auto 26px;max-width:48ch}
+.contact{text-align:center;background:#0C251966}
+.contact h2{color:var(--gold)}
+.contact p{margin:0 auto 26px;max-width:48ch;font-size:1.15rem}
 .contact .cta{justify-content:center}
-footer{background:var(--navy);color:#B8CDE6;text-align:center;padding:20px;font-size:.9rem}
+footer{background:#071710;color:var(--soft);text-align:center;padding:20px;font-family:var(--tech);font-size:.9rem;border-top:1px solid var(--gold-d)}
 
 @media(max-width:780px){
   .hero-grid,.about{grid-template-columns:1fr}
-  .hero-grid{margin-top:48px}
-  section{padding:52px 0}
+  .sys{margin-top:44px}
+  section{padding:54px 0}
+  body{font-size:18px}
 }
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.card{transition:none}}
+
+/* ===== ajustes: fonte maior, grossa e rústica; laranja no lugar do azul ===== */
+:root{--mist:#F28C38;--head:"Germania One",Georgia,serif;--body:"Alegreya",Georgia,serif;--tech:"Courier Prime",ui-monospace,monospace}
+body{font-size:22px;font-weight:500;line-height:1.6}
+h1,h2,h3,nav .logo,.thumb{font-weight:400}
+nav .logo{font-size:1.9rem;letter-spacing:.03em}
+nav a{font-size:1.1rem;font-weight:700}
+.sys{font-size:1.1rem;font-weight:700}
+.hero h1{font-size:clamp(2.6rem,6.6vw,4.7rem)}
+.hero p{font-size:1.4rem}
+h2{font-size:clamp(2rem,4.6vw,3rem)}
+.lead{font-size:1.15rem}
+.btn{font-size:1.1rem;font-weight:700}
+.skills b{font-size:1.2rem}
+.skills span{font-size:1.02rem;font-weight:700}
+.body h3{font-size:1.5rem}
+.meta{font-size:1.05rem;font-weight:700}
+.body p{font-size:1.1rem}
+.tags li{font-size:.92rem;font-weight:700}
+.links a{font-size:1.05rem;font-weight:700}
+.trilha h3{font-size:1.4rem}
+.contact p{font-size:1.3rem}
+footer{font-size:1rem;font-weight:700}
+@media(max-width:780px){body{font-size:20px}}
 </style>
 </head>
 <body>
@@ -105,6 +144,7 @@ footer{background:var(--navy);color:#B8CDE6;text-align:center;padding:20px;font-
         <li><a href="#contato">Contato</a></li>
       </ul>
     </nav>
+    <div class="sys">&gt; sistema.online // gameplay · switch · llm_</div>
     <div class="hero-grid">
       <div>
         <h1>Eu faço jogos rodarem bem, em qualquer tela.</h1>
@@ -126,7 +166,7 @@ footer{background:var(--navy);color:#B8CDE6;text-align:center;padding:20px;font-
   <section id="sobre">
     <div class="wrap about">
       <div>
-        <h2>Um pouco sobre mim</h2>
+        <h2 data-r="ᚨ">Um pouco sobre mim</h2>
         <p>Trabalho com jogos desde 2022 e hoje sou Mid Game Developer na Game Nacional. No dia a dia eu adapto input, UI e sistemas de save para as regras do console, caço gargalos no Profiler e resolvo aquele travamento que só acontece no hardware real.</p>
         <p>Também sou mestre em Engenharia de Software pela CESAR School, onde pesquisei o uso de LLMs em jogos sérios dentro do Unity. Antes disso, passei por design, concept art e muita prototipação.</p>
       </div>
@@ -142,7 +182,7 @@ footer{background:var(--navy);color:#B8CDE6;text-align:center;padding:20px;font-
 
   <section class="projects" id="projetos">
     <div class="wrap">
-      <h2>Projetos</h2>
+      <h2 data-r="ᚱ">Projetos</h2>
       <p class="lead">Os jogos que já saíram na eShop vêm primeiro. Depois, protótipos, a pesquisa do mestrado e os começos.</p>
       <div class="grid" id="grid"></div>
     </div>
@@ -150,9 +190,9 @@ footer{background:var(--navy);color:#B8CDE6;text-align:center;padding:20px;font-
 
   <section id="trajetoria">
     <div class="wrap">
-      <h2>Trajetória</h2>
+      <h2 data-r="ᛉ">Trajetória</h2>
       <p class="lead">Do primeiro protótipo mobile até os jogos no Switch.</p>
-      <div class="line">
+      <div class="trilha">
         <div>
           <h3>Game Nacional · Mid Game Developer</h3>
           <span class="meta">Abr 2024 até hoje</span>
@@ -174,7 +214,7 @@ footer{background:var(--navy);color:#B8CDE6;text-align:center;padding:20px;font-
 
   <section class="contact" id="contato">
     <div class="wrap">
-      <h2>Bora conversar?</h2>
+      <h2 data-r="ᚹ">Bora conversar?</h2>
       <p>Se você tem uma vaga, um projeto ou só quer trocar ideia sobre jogos, me manda uma mensagem.</p>
       <div class="cta">
         <a class="btn solid" href="mailto:jlucasap@hotmail.com">jlucasap@hotmail.com</a>
@@ -195,32 +235,32 @@ footer{background:var(--navy);color:#B8CDE6;text-align:center;padding:20px;font-
    - links: deixe vazio [] se ainda não tiver o link
    ============================================================ */
 const projetos = [
-  { nome:"CatTerror: The Abandoned House", periodo:"Jan a Mar 2025", img:"assets/img/catterror.png",
+  { nome:"CatTerror: The Abandoned House", periodo:"Jan a Mar 2025", img:"assets/img/catterror.jpg",
     texto:"Terror em primeira pessoa 3D para Switch. Reduzi texturas, usei object pooling, occlusion culling e ajuste de distância de visão. Também resolvi um stutter com crash causado pela instanciação do monstro: ele agora carrega de forma assíncrona e espera inativo até o gatilho.",
     tags:["Unity","Switch","Otimização"], links:[["Ver na eShop","https://www.nintendo.com/us/store/products/catterror-the-abandoned-house-switch/"]] },
-  { nome:"Pizza Maker", periodo:"Nov a Dez 2024", img:"assets/img/pizzamaker.png",
+  { nome:"Pizza Maker", periodo:"Nov a Dez 2024", img:"assets/img/pizzamaker.jpg",
     texto:"Simulador de cozinha 2D com entregas. Troquei o mouse por um cursor virtual controlado pelo Joy-Con e adaptei o sistema de save para o Switch.",
     tags:["Unity","Switch","Input","Save"], links:[["Ver na eShop","https://www.nintendo.com/us/store/products/pizza-maker-switch/"]] },
-  { nome:"Felinea Tales", periodo:"Out a Nov 2024", img:"assets/img/felinea.png",
+  { nome:"Felinea Tales", periodo:"Out a Nov 2024", img:"assets/img/felinea.jpg",
     texto:"Plataforma 3D inspirado nos clássicos do gênero. Fiz o sistema de save completo para o Switch e migrei a localização da leitura de arquivos externos para Unity String Tables.",
     tags:["Unity","Switch","Localização"], links:[["Ver na eShop","https://www.nintendo.com/us/store/products/felinea-tales-switch/"]] },
-  { nome:"Tiny Little Farm", periodo:"Mai a Jun 2024", img:"assets/img/tinylittlefarm.png",
+  { nome:"Tiny Little Farm", periodo:"Mai a Jun 2024", img:"assets/img/tinylittlefarm.jpg",
     texto:"Simulador de fazenda 2D para Switch. Adaptei o sistema de localização para suportar japonês.",
     tags:["Unity","Switch","Localização"], links:[["Ver na eShop","https://www.nintendo.com/us/store/products/tiny-little-farm-switch/"]] },
-  { nome:"ADHD Racers", periodo:"Mar a Set 2025", img:"assets/img/adhdracers.png",
+  { nome:"ADHD Racers", periodo:"Mar a Set 2025", img:"assets/img/adhdracers.jpg",
     texto:"MVP de corrida 2D mobile, feito para a tese do mestrado. Integração REST com UnityWebRequest, JSON e comunicação com LLM para respostas adaptativas. O loop principal foi validado com profissionais de saúde mental.",
     tags:["Unity","LLM","API REST","Pesquisa"],
     links:[/* ["Vídeo do MVP","COLE_O_LINK_AQUI"], ["Tese completa","COLE_O_LINK_AQUI"] */] },
-  { nome:"Data2073", periodo:"Jul a Out 2022", img:"assets/img/data2073.png",
+  { nome:"Data2073", periodo:"Jul a Out 2022", img:"assets/img/data2073.jpg",
     texto:"Card game 3D com foco em Web3. Prototipei o sistema de batalha com ScriptableObjects, posicionamento de personagens e alvo de habilidades, e criei mais de 120 concept arts.",
     tags:["Unity","Game Design","Concept Art"], links:[["Ver na Epic Games","https://store.epicgames.com/p/data2073-9d83d4"]] },
-  { nome:"O Resgate de Farya", periodo:"Mar a Jul 2022", img:"assets/img/farya.png",
+  { nome:"O Resgate de Farya", periodo:"Mar a Jul 2022", img:"assets/img/farya.jpg",
     texto:"Puzzle-platformer 2D mobile em parceria com a ViuCine. Dois personagens jogáveis, um companheiro controlado por IA, UI mobile e movimentação.",
     tags:["Unity","Mobile","IA"], links:[["Jogar no itch.io","https://oresgatedefarya.itch.io/o-resgate-de-farya"]] },
-  { nome:"Only Wheels", periodo:"Fev a Jun 2020", img:"assets/img/onlywheels.png",
+  { nome:"Only Wheels", periodo:"Fev a Jun 2020", img:"assets/img/onlywheels.jpg",
     texto:"Protótipo de corrida 3D da faculdade, com controle de veículo por física, power-ups aleatórios, pipeline cel shading e shader de água no Shader Graph.",
     tags:["Unity","Shader Graph","Física"], links:[["Jogar no itch.io","https://joao-lucas-almeida.itch.io/only-wheels"]] },
-  { nome:"Pugs and Plants", periodo:"Ago a Nov 2019", img:"assets/img/pugsandplants.png",
+  { nome:"Pugs and Plants", periodo:"Ago a Nov 2019", img:"assets/img/pugsandplants.jpg",
     texto:"Meu primeiro jogo completo, solo: shooter top-down hyper-casual com ondas de inimigos, pontuação, ranking e vida. Código, UI e toda a arte feitos por mim.",
     tags:["Unity","C#","Solo"], links:[["Jogar no itch.io","https://joao-lucas-almeida.itch.io/pugs-and-plants"]] }
 ];
