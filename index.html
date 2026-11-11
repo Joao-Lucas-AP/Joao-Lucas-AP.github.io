@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>João Lucas Almeida · Game Developer</title>
-<meta name="description" content="Portfólio de João Lucas Almeida Pereira, Unity Developer e Gameplay Programmer em Recife. 4 jogos portados para Nintendo Switch.">
+<meta name="description" content="Portfolio of João Lucas Almeida Pereira, Unity Developer and Gameplay Programmer in Recife, Brazil. 5 games ported to Nintendo Switch.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Germania+One&family=Alegreya:ital,wght@0,500;0,700;1,500&family=Courier+Prime:wght@400;700&family=Noto+Sans+Runic&display=swap" rel="stylesheet">
@@ -72,7 +72,7 @@ h2{font-size:clamp(1.6rem,3.6vw,2.2rem);color:var(--gold);margin-bottom:12px}
 .card:hover{transform:translateY(-3px)}
 .card::after{content:"ᛃ";position:absolute;top:10px;right:14px;font-family:var(--rune);color:var(--mist);text-shadow:0 0 8px var(--forest),0 0 10px var(--mist);font-size:1.2rem}
 .thumb{aspect-ratio:16/10;background:linear-gradient(135deg,var(--forest),var(--leaf));display:grid;place-items:center;text-align:center;padding:10px;color:var(--gold);font-family:var(--head);font-weight:700;font-size:1.5rem;overflow:hidden;border-bottom:1px solid var(--gold-d)}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block;filter:none}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;filter:none;opacity:1;mix-blend-mode:normal;}
 .body{padding:20px 22px 24px;display:flex;flex-direction:column;gap:10px;flex:1}
 .body h3{font-size:1.2rem;color:#F2F8EC}
 .meta{font-family:var(--tech);font-size:.9rem;color:var(--mist)}
@@ -172,6 +172,7 @@ body{overflow-x:hidden;-webkit-text-size-adjust:100%}
     radial-gradient(ellipse 90% 34% at 0% 100%,rgba(242,140,56,.6) 0%,rgba(232,100,30,.26) 45%,transparent 75%),
     radial-gradient(ellipse 90% 34% at 100% 100%,rgba(242,140,56,.6) 0%,rgba(232,100,30,.26) 45%,transparent 75%),
     linear-gradient(0deg,rgba(242,120,40,.18),transparent 20%)}}
+.meta:empty{display:none}
 </style>
 </head>
 <body>
@@ -189,7 +190,7 @@ body{overflow-x:hidden;-webkit-text-size-adjust:100%}
         <li><a href="#trajetoria" data-i18n="n3">Trajetória</a></li>
         <li><a href="#contato" data-i18n="n4">Contato</a></li>
       </ul>
-      <div class="lang" role="group" aria-label="Idioma / Language / Langue"><button data-l="pt" aria-pressed="true">PT</button><button data-l="en" aria-pressed="false">EN</button><button data-l="fr" aria-pressed="false">FR</button></div>
+      <div class="lang" role="group" aria-label="Idioma / Language / Langue"><button data-l="en" aria-pressed="true">EN</button><button data-l="pt" aria-pressed="false">PT</button><button data-l="fr" aria-pressed="false">FR</button></div>
     </nav>
     <div class="sys" data-i18n="s0">&gt; sistema.online // gameplay · switch · llm_</div>
     <div class="hero-grid">
@@ -202,7 +203,7 @@ body{overflow-x:hidden;-webkit-text-size-adjust:100%}
         </div>
       </div>
       <div class="switch">
-        <strong>4</strong>
+        <strong>5</strong>
         <span data-i18n="sw">jogos portados e otimizados para Nintendo Switch, todos publicados na eShop.</span>
       </div>
     </div>
@@ -243,7 +244,7 @@ body{overflow-x:hidden;-webkit-text-size-adjust:100%}
         <div>
           <h3>Game Nacional · Mid Game Developer</h3>
           <span class="meta" data-per>Abr 2024 até hoje</span>
-          <p data-i18n="tp1">Port e otimização de 4 títulos para Nintendo Switch, features de gameplay, fluxos de UI e arquitetura de cenas e prefabs em C#.</p>
+          <p data-i18n="tp1">Port e otimização de 5 títulos para Nintendo Switch, features de gameplay, fluxos de UI e arquitetura de cenas e prefabs em C#.</p>
         </div>
         <div>
           <h3 data-i18n="th2">GameForm · Game Developer, Designer e Concept Artist</h3>
@@ -282,6 +283,9 @@ body{overflow-x:hidden;-webkit-text-size-adjust:100%}
    - links: deixe vazio [] se ainda não tiver o link
    ============================================================ */
 const projetos = [
+  { nome:"Sunshine Farm", periodo:"", img:"assets/img/sunshinefarm.png",
+    texto:"Jogo publicado para Nintendo Switch. Trabalhei na otimização de performance, na compatibilidade dos sistemas de save e na adaptação da navegação de UI para o console.",
+    tags:["Switch","Otimização","Save","UI"], links:[["Ver na eShop","https://www.nintendo.com/us/store/products/sunshine-farm-switch/"]] },
   { nome:"CatTerror: The Abandoned House", periodo:"Jan a Mar 2025", img:"assets/img/catterror.png",
     texto:"Terror em primeira pessoa 3D para Switch. Reduzi texturas, usei object pooling, occlusion culling e ajuste de distância de visão. Também resolvi um stutter com crash causado pela instanciação do monstro: ele agora carrega de forma assíncrona e espera inativo até o gatilho.",
     tags:["Unity","Switch","Otimização"], links:[["Ver na eShop","https://www.nintendo.com/us/store/products/catterror-the-abandoned-house-switch/"]] },
@@ -297,7 +301,7 @@ const projetos = [
   { nome:"ADHD Racers", periodo:"Mar a Set 2025", img:"assets/img/adhdracers.png",
     texto:"MVP de corrida 2D mobile, feito para a tese do mestrado. Integração REST com UnityWebRequest, JSON e comunicação com LLM para respostas adaptativas. O loop principal foi validado com profissionais de saúde mental.",
     tags:["Unity","LLM","API REST","Pesquisa"],
-    links:[/* ["Vídeo do MVP","COLE_O_LINK_AQUI"], ["Tese completa","COLE_O_LINK_AQUI"] */] },
+    links:[["Vídeo do MVP","https://drive.google.com/file/d/18jYSooz2d6aAiR5f8Z9jJ6DHW7NZtfJF/view"], ["Tese completa","https://drive.google.com/file/d/1v_vA1xBbzmMgItJb-IpXduck_8JF-xT0/view"]]},
   { nome:"Data2073", periodo:"Jul a Out 2022", img:"assets/img/data2073.png",
     texto:"Card game 3D com foco em Web3. Prototipei o sistema de batalha com ScriptableObjects, posicionamento de personagens e alvo de habilidades, e criei mais de 120 concept arts.",
     tags:["Unity","Game Design","Concept Art"], links:[["Ver na Epic Games","https://store.epicgames.com/p/data2073-9d83d4"]] },
@@ -324,7 +328,7 @@ k1:"Languages and fundamentals",k2:"Graphics",k3:"Platforms",k4:"Tools",ks2:"Sha
 p1:"Projects",pl:"The games already on the eShop come first. Then prototypes, my master's research, and where it all began.",
 t1:"Journey",tl:"From my first mobile prototype to games on the Switch.",
 th2:"GameForm · Game Developer, Designer and Concept Artist",
-tp1:"Ported and optimized 4 titles for Nintendo Switch, plus gameplay features, UI flows, and scene and prefab architecture in C#.",
+tp1:"Ported and optimized 5 titles for Nintendo Switch, plus gameplay features, UI flows, and scene and prefab architecture in C#.",
 tp2:"Core systems and card battle for the Data2073 prototype, plus 120+ concept art pieces.",
 tp3:"Mobile prototype of O Resgate de Farya, in partnership with the animation studio ViuCine.",
 c1:"Let's talk?",c2:"If you have a job opening, a project, or just want to chat about games, send me a message.",ft:"Recife, Brazil"},
@@ -339,13 +343,14 @@ k1:"Langages et fondamentaux",k2:"Graphismes",k3:"Plateformes",k4:"Outils",ks2:"
 p1:"Projets",pl:"Les jeux déjà sur l'eShop viennent en premier, puis les prototypes, la recherche du master et mes débuts.",
 t1:"Parcours",tl:"Du premier prototype mobile aux jeux sur Switch.",
 th2:"GameForm · Game Developer, Designer et Concept Artist",
-tp1:"Port et optimisation de 4 titres pour la Nintendo Switch, fonctionnalités de gameplay, flux d'interface et architecture de scènes et de prefabs en C#.",
+tp1:"Port et optimisation de 5 titres pour la Nintendo Switch, fonctionnalités de gameplay, flux d'interface et architecture de scènes et de prefabs en C#.",
 tp2:"Systèmes centraux et combat de cartes du prototype de Data2073, plus de 120 concept arts.",
 tp3:"Prototype mobile de O Resgate de Farya, en partenariat avec le studio d'animation ViuCine.",
 c1:"On en discute ?",c2:"Si vous avez un poste, un projet ou simplement envie de parler jeux vidéo, écrivez-moi.",ft:"Recife, Brésil"}
 };
 const PT = {
-en:["3D first-person horror game for Switch. I reduced textures, used object pooling, occlusion culling, and view distance tuning. I also fixed a stutter-and-crash caused by the monster's instantiation: it now loads asynchronously and waits inactive until the trigger.",
+en:["Released on Nintendo Switch. I worked on performance optimization, save system compatibility, and adapting UI navigation for the console.",
+"3D first-person horror game for Switch. I reduced textures, used object pooling, occlusion culling, and view distance tuning. I also fixed a stutter-and-crash caused by the monster's instantiation: it now loads asynchronously and waits inactive until the trigger.",
 "2D kitchen simulator with deliveries. I replaced the mouse with a virtual cursor controlled by the Joy-Con and adapted the save system for the Switch.",
 "3D platformer inspired by the genre's classics. I built the full save system for the Switch and moved localization from external file reading to Unity String Tables.",
 "2D farm simulator for the Switch. I adapted the localization system to support Japanese.",
@@ -354,7 +359,8 @@ en:["3D first-person horror game for Switch. I reduced textures, used object poo
 "2D mobile puzzle-platformer in partnership with ViuCine. Two playable characters, an AI-controlled companion, mobile UI, and movement.",
 "3D racing prototype from university, with physics-based vehicle control, random power-ups, a cel shading pipeline, and a water shader in Shader Graph.",
 "My first complete game, solo: a hyper-casual top-down shooter with enemy waves, scoring, ranking, and lives. Code, UI, and all the art made by me."],
-fr:["Jeu d'horreur 3D à la première personne pour Switch. J'ai réduit les textures, utilisé le pooling d'objets, l'occlusion culling et ajusté la distance d'affichage. J'ai aussi réglé des saccades avec plantage causés par l'instanciation du monstre : il se charge désormais en asynchrone et reste inactif jusqu'au déclencheur.",
+fr:["Publié sur Nintendo Switch. J'ai travaillé sur l'optimisation des performances, la compatibilité des systèmes de sauvegarde et l'adaptation de la navigation de l'interface à la console.",
+"Jeu d'horreur 3D à la première personne pour Switch. J'ai réduit les textures, utilisé le pooling d'objets, l'occlusion culling et ajusté la distance d'affichage. J'ai aussi réglé des saccades avec plantage causés par l'instanciation du monstre : il se charge désormais en asynchrone et reste inactif jusqu'au déclencheur.",
 "Simulateur de cuisine 2D avec livraisons. J'ai remplacé la souris par un curseur virtuel piloté au Joy-Con et adapté le système de sauvegarde à la Switch.",
 "Jeu de plateforme 3D inspiré des classiques du genre. J'ai créé le système de sauvegarde complet pour la Switch et fait passer la localisation de la lecture de fichiers externes aux Unity String Tables.",
 "Simulateur de ferme 2D pour la Switch. J'ai adapté le système de localisation pour prendre en charge le japonais.",
@@ -366,8 +372,8 @@ fr:["Jeu d'horreur 3D à la première personne pour Switch. J'ai réduit les tex
 };
 const TAG = {en:{"Otimização":"Optimization","Localização":"Localization","Pesquisa":"Research","Física":"Physics"},
              fr:{"Otimização":"Optimisation","Localização":"Localisation","Pesquisa":"Recherche","Física":"Physique"}};
-const LNK = {en:{"Ver na eShop":"View on the eShop","Ver na Epic Games":"View on Epic Games","Jogar no itch.io":"Play on itch.io"},
-             fr:{"Ver na eShop":"Voir sur l'eShop","Ver na Epic Games":"Voir sur Epic Games","Jogar no itch.io":"Jouer sur itch.io"}};
+const LNK = {en:{"Ver na eShop":"View on the eShop","Ver na Epic Games":"View on Epic Games","Jogar no itch.io":"Play on itch.io","Vídeo do MVP":"MVP video","Tese completa":"Full thesis"},
+             fr:{"Ver na eShop":"Voir sur l'eShop","Ver na Epic Games":"Voir sur Epic Games","Jogar no itch.io":"Jouer sur itch.io","Vídeo do MVP":"Vidéo du MVP","Tese completa":"Thèse complète"}};
 const ALT = {pt:"Imagem do jogo ",en:"Image of the game ",fr:"Image du jeu "};
 const MES = {en:{Jan:"Jan",Fev:"Feb",Mar:"Mar",Abr:"Apr",Mai:"May",Jun:"Jun",Jul:"Jul",Ago:"Aug",Set:"Sep",Out:"Oct",Nov:"Nov",Dez:"Dec",a:"to","até hoje":"– present"},
              fr:{Jan:"janv.",Fev:"févr.",Mar:"mars",Abr:"avr.",Mai:"mai",Jun:"juin",Jul:"juil.",Ago:"août",Set:"sept.",Out:"oct.",Nov:"nov.",Dez:"déc.",a:"à","até hoje":"– aujourd'hui"}};
@@ -424,8 +430,7 @@ document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click
 document.getElementById("ano").textContent = new Date().getFullYear();
 let saved = null;
 try { saved = localStorage.getItem("lang"); } catch(e) {}
-const nv = (navigator.language || "pt").slice(0,2);
-setLang(["pt","en","fr"].includes(saved) ? saved : (["en","fr"].includes(nv) ? nv : "pt"));
+setLang(["pt","en","fr"].includes(saved) ? saved : "en");
 
 /* ===== partículas + runas em parallax ===== */
 (function(){
