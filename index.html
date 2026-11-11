@@ -135,18 +135,9 @@ footer{font-size:1rem;font-weight:700}
 /* ===== partículas, runas em parallax e mobile ===== */
 #fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 #runas{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.rcol{position:absolute;top:0;font-family:var(--rune);text-align:center;white-space:pre;will-change:transform}
-.rcol.l{left:var(--x)}
-.rcol.r{right:var(--x)}
-.rcol.d3{--x:6px;font-size:2.6rem;color:var(--mist);opacity:.26;text-shadow:0 0 14px currentColor}
-.rcol.d2{--x:66px;font-size:1.7rem;color:var(--gold);opacity:.2;text-shadow:0 0 8px currentColor}
-.rcol.d1{--x:112px;font-size:1.05rem;color:var(--mist);opacity:.15}
 body{overflow-x:hidden;-webkit-text-size-adjust:100%}
 .lang button{min-height:40px;min-width:46px}
 @media(max-width:780px){
-  .rcol.d3{--x:2px;font-size:1.6rem;opacity:.2}
-  .rcol.d2{--x:30px;font-size:1.15rem;opacity:.15}
-  .rcol.d1{--x:50px;font-size:.85rem;opacity:.11}
   nav{justify-content:center;text-align:center;gap:10px}
   nav ul{width:100%;justify-content:center;flex-wrap:wrap;gap:6px 20px}
   .lang{order:3}
@@ -173,6 +164,12 @@ body{overflow-x:hidden;-webkit-text-size-adjust:100%}
     radial-gradient(ellipse 90% 34% at 100% 100%,rgba(242,140,56,.6) 0%,rgba(232,100,30,.26) 45%,transparent 75%),
     linear-gradient(0deg,rgba(242,120,40,.18),transparent 20%)}}
 .meta:empty{display:none}
+
+/* correntes laterais em parallax */
+.chain{position:absolute;top:0;background-repeat:repeat-y;transform-origin:50% 0;will-change:transform}
+@keyframes sway{0%,100%{rotate:-.6deg}50%{rotate:.6deg}}
+.chain.s{animation:sway 7s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.chain.s{animation:none}}
 </style>
 </head>
 <body>
@@ -527,24 +524,38 @@ setLang(["pt","en","fr"].includes(saved) ? saved : "en");
     else if (dy < 0){ boostTarget = 0; }
   }, {passive:true});
 
-  /* --- runas em 3 camadas (esquerda e direita) --- */
+  /* --- correntes em 3 camadas (esquerda e direita) --- */
   const box = document.getElementById("runas");
-  const R = "ᚠᚢᚦᚨᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ";
-  const layers = [{c:"d1", speed:.14}, {c:"d2", speed:.28}, {c:"d3", speed:.5}];
+  const CH = [
+    {w:34, wm:22, x:-2, xm:-3, speed:.9,  col:"F28C38", op:.55, sway:true},
+    {w:22, wm:15, x:30, xm:14, speed:.42, col:"E2B94E", op:.4},
+    {w:14, wm:10, x:56, xm:28, speed:.15, col:"F28C38", op:.26}
+  ];
+  /* corrente chapada: anéis largos alternando com elos estreitos, entrelaçados (sem contorno) */
+  const LINK_B = "d='M12 34a6 6 0 0 1 12 0v38a6 6 0 0 1-12 0zM16 34a2 2 0 0 1 4 0v38a2 2 0 0 1-4 0z'";
+  const chainURI = col => 'url("data:image/svg+xml,' + encodeURIComponent(
+    "<svg xmlns='http://www.w3.org/2000/svg' width='36' height='56' fill='#"+col+"'><defs>"+
+    "<mask id='a' maskUnits='userSpaceOnUse' x='0' y='0' width='36' height='56'><rect width='36' height='56' fill='#fff'/>"+
+    "<path d='M12 34a6 6 0 0 1 12 0v38a6 6 0 0 1-12 0z' fill='#000' stroke='#000' stroke-width='5' stroke-linejoin='round'/></mask>"+
+    "<mask id='b' maskUnits='userSpaceOnUse' x='0' y='0' width='36' height='56'><rect width='36' height='56' fill='#fff'/>"+
+    "<path d='M4 14a14 14 0 0 1 28 0v22a14 14 0 0 1-28 0z' fill='#000' stroke='#000' stroke-width='5' stroke-linejoin='round'/></mask></defs>"+
+    "<g mask='url(#a)'><path fill-rule='evenodd' d='M4 14a14 14 0 0 1 28 0v22a14 14 0 0 1-28 0zM9 14a9 9 0 0 1 18 0v22a9 9 0 0 1-18 0z'/></g>"+
+    "<path fill-rule='evenodd' "+LINK_B+"/>"+
+    "<g mask='url(#b)'><path fill-rule='evenodd' transform='translate(0,-56)' "+LINK_B+"/></g></svg>") + '")';
   let cols = [];
-  function buildRunes(){
+  function buildChains(){
     box.innerHTML = ""; cols = [];
-    layers.forEach((ly, li) => ["l","r"].forEach((side, si) => {
+    const m = innerWidth < 780;
+    CH.forEach(ly => ["l","r"].forEach((side, si) => {
+      const w = m ? ly.wm : ly.w, x = m ? ly.xm : ly.x, per = w*56/36;
       const el = document.createElement("div");
-      el.className = "rcol "+side+" "+ly.c;
+      el.className = "chain" + (ly.sway ? " s" : "");
+      Object.assign(el.style, {width:w+"px", height:(innerHeight+per)+"px", backgroundImage:chainURI(ly.col),
+        backgroundSize:w+"px "+per+"px", backgroundPositionY:(si ? per/2 : 0)+"px", opacity:ly.op});
+      el.style[side === "l" ? "left" : "right"] = x+"px";
+      if (ly.sway) el.style.animationDelay = (si*-3.5)+"s";
       box.appendChild(el);
-      const fs = parseFloat(getComputedStyle(el).fontSize);
-      const lh = fs*1.7; el.style.lineHeight = lh+"px";
-      const count = Math.ceil(innerHeight/lh) + 3;
-      const seq = []; let k = li*7 + si*11;
-      for (let i=0;i<count;i++){ k = (k*5+3) % R.length; seq.push(R[k]); }
-      el.textContent = seq.concat(seq).join("\n");
-      cols.push({el, speed:ly.speed, period:count*lh});
+      cols.push({el, speed:ly.speed, period:per});
     }));
     move();
   }
@@ -555,8 +566,8 @@ setLang(["pt","en","fr"].includes(saved) ? saved : "en");
   let tick = false;
   addEventListener("scroll", () => { if (reduce || tick) return; tick = true; requestAnimationFrame(() => { move(); tick = false; }); }, {passive:true});
   let rs;
-  addEventListener("resize", () => { clearTimeout(rs); rs = setTimeout(() => { sizeCanvas(); buildRunes(); }, 150); });
-  sizeCanvas(); buildRunes();
+  addEventListener("resize", () => { clearTimeout(rs); rs = setTimeout(() => { sizeCanvas(); buildChains(); }, 150); });
+  sizeCanvas(); buildChains();
   if (!reduce) raf = requestAnimationFrame(loop);
 })();
 </script>
