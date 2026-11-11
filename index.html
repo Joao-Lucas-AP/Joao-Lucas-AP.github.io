@@ -167,9 +167,26 @@ body{overflow-x:hidden;-webkit-text-size-adjust:100%}
 
 /* correntes laterais em parallax */
 .chain{position:absolute;top:0;background-repeat:repeat-y;transform-origin:50% 0;will-change:transform}
-@keyframes sway{0%,100%{rotate:-.6deg}50%{rotate:.6deg}}
+@keyframes sway{0%,100%{rotate:calc(var(--sw)*-1)}50%{rotate:var(--sw)}}
 .chain.s{animation:sway 7s ease-in-out infinite}
 @media(prefers-reduced-motion:reduce){.chain.s{animation:none}}
+
+/* destaque da frase principal */
+.hero h1{font-size:clamp(2.7rem,7.4vw,5.8rem);line-height:1.04;margin:64px 0 0;color:#FFF4D6;text-shadow:0 0 34px #E2B94E66,0 3px 0 var(--gold-d)}
+.hero-grid{margin-top:30px}
+@media(max-width:780px){.hero h1{margin-top:40px}.hero-grid{margin-top:24px}}
+
+/* mesmo destaque da frase principal nos títulos das seções */
+h2,.contact h2{color:#FFF4D6;text-shadow:0 0 34px #E2B94E66,0 3px 0 var(--gold-d);font-size:clamp(2.2rem,5.4vw,3.6rem);line-height:1.1}
+
+/* botões do menu */
+nav ul{gap:12px}
+nav ul a{display:inline-block;font-family:var(--head);font-weight:400;font-size:1.2rem;letter-spacing:.04em;line-height:1.2;padding:9px 20px;color:#FFF4D6;text-shadow:0 0 14px #E2B94E66,0 2px 0 var(--gold-d);background:#0C2519d9;border:1px solid var(--gold);clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);transition:background .2s,border-color .2s}
+nav ul a:hover{background:var(--moss);border-color:var(--mist);color:#FFF4D6}
+nav ul a:focus-visible{outline-offset:-5px}
+@media(max-width:780px){nav ul{gap:10px}nav ul a{font-size:1.05rem;padding:8px 14px}}
+@media(max-width:520px){nav ul{display:grid;grid-template-columns:1fr 1fr}nav ul a{display:block;text-align:center}}
+@media(prefers-reduced-motion:reduce){nav ul a{transition:none}}
 </style>
 </head>
 <body>
@@ -189,10 +206,9 @@ body{overflow-x:hidden;-webkit-text-size-adjust:100%}
       </ul>
       <div class="lang" role="group" aria-label="Idioma / Language / Langue"><button data-l="en" aria-pressed="true">EN</button><button data-l="pt" aria-pressed="false">PT</button><button data-l="fr" aria-pressed="false">FR</button></div>
     </nav>
-    <div class="sys" data-i18n="s0">&gt; sistema.online // gameplay · switch · llm_</div>
+    <h1 data-i18n="h1">Eu faço jogos rodarem bem, em qualquer tela.</h1>
     <div class="hero-grid">
       <div>
-        <h1 data-i18n="h1">Eu faço jogos rodarem bem, em qualquer tela.</h1>
         <p data-i18n="hp">Sou João, Unity Developer e Gameplay Programmer em Recife. Gosto de sistemas de gameplay, de performance e de levar jogo para console sem perder a graça.</p>
         <div class="cta">
           <a class="btn solid" href="#projetos" data-i18n="b1">Ver meus projetos</a>
@@ -527,9 +543,9 @@ setLang(["pt","en","fr"].includes(saved) ? saved : "en");
   /* --- correntes em 3 camadas (esquerda e direita) --- */
   const box = document.getElementById("runas");
   const CH = [
-    {w:34, wm:22, x:-2, xm:-3, speed:.9,  col:"F28C38", op:.55, sway:true},
-    {w:22, wm:15, x:30, xm:14, speed:.42, col:"E2B94E", op:.4},
-    {w:14, wm:10, x:56, xm:28, speed:.15, col:"F28C38", op:.26}
+    {w:34, wm:22, x:-2, xm:-3, speed:1.4, col:"F28C38", op:.55, sway:1.6, dur:6.5},
+    {w:22, wm:15, x:46, xm:22, speed:.6,  col:"E2B94E", op:.4,  sway:1.1, dur:7.5},
+    {w:14, wm:10, x:98, xm:46, speed:.18, col:"F28C38", op:.26, sway:.7,  dur:9}
   ];
   /* corrente chapada: anéis largos alternando com elos estreitos, entrelaçados (sem contorno) */
   const LINK_B = "d='M12 34a6 6 0 0 1 12 0v38a6 6 0 0 1-12 0zM16 34a2 2 0 0 1 4 0v38a2 2 0 0 1-4 0z'";
@@ -553,7 +569,7 @@ setLang(["pt","en","fr"].includes(saved) ? saved : "en");
       Object.assign(el.style, {width:w+"px", height:(innerHeight+per)+"px", backgroundImage:chainURI(ly.col),
         backgroundSize:w+"px "+per+"px", backgroundPositionY:(si ? per/2 : 0)+"px", opacity:ly.op});
       el.style[side === "l" ? "left" : "right"] = x+"px";
-      if (ly.sway) el.style.animationDelay = (si*-3.5)+"s";
+      if (ly.sway){ el.style.setProperty("--sw", ly.sway+"deg"); el.style.animationDuration = ly.dur+"s"; el.style.animationDelay = (si*-ly.dur/2)+"s"; }
       box.appendChild(el);
       cols.push({el, speed:ly.speed, period:per});
     }));
