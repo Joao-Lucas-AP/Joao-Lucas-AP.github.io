@@ -13,13 +13,11 @@
   --forest:#0C2519; --moss:#1F5236; --leaf:#3E8A58; --sage:#D5E4CC; --soft:#9DB7A5;
   --mist:#8CC1DC; --gold:#E2B94E; --gold-d:#9C7A2E;
   --head:"Cinzel",Georgia,serif; --body:"IM Fell English",Georgia,serif; --tech:"Share Tech Mono",ui-monospace,monospace; --rune:"Noto Sans Runic","Segoe UI Historic",serif;
-  --doodle:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' fill='none' stroke='%23E2B94E' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='80' cy='80' r='38'/%3E%3Ccircle cx='80' cy='80' r='28' stroke-dasharray='3 5'/%3E%3Cpath d='M80 56l5 19 19 5-19 5-5 19-5-19-19-5 19-5z'/%3E%3Cpath d='M200 40h60v50h60M260 90v50h30'/%3E%3Ccircle cx='200' cy='40' r='4'/%3E%3Ccircle cx='320' cy='90' r='4'/%3E%3Ccircle cx='290' cy='140' r='4'/%3E%3Cpath d='M330 300c0-20 20-30 35-20 18 12 10 40-12 42-26 2-36-28-18-46'/%3E%3Cpath d='M70 300a30 30 0 1 0 28 40 24 24 0 1 1-28-40z'/%3E%3Cpath d='M210 230l22 13v26l-22 13-22-13v-26zM210 245l11 20h-22z'/%3E%3Cpath d='M150 350v44M150 362l18-12M150 376l18-12'/%3E%3Cpath d='M20 190q15-18 30 0t30 0 30 0'/%3E%3Cpath d='M360 190v30M345 205h30'/%3E%3Cpath d='M380 380l8-14 8 14z'/%3E%3Ccircle cx='250' cy='360' r='2'/%3E%3Ccircle cx='120' cy='200' r='2'/%3E%3Ccircle cx='390' cy='40' r='2'/%3E%3C/svg%3E");
 }
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--body);color:var(--sage);background:var(--forest);line-height:1.65;font-size:19px;position:relative}
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 80% 0%,#E8772E2E 0,transparent 35%),linear-gradient(160deg,var(--forest) 0%,var(--moss) 100%)}
-body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:var(--doodle);background-size:420px;opacity:.16}
 header,main,footer{position:relative;z-index:1}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--mist);outline-offset:3px}
@@ -133,9 +131,53 @@ footer{font-size:1rem;font-weight:700}
 .lang button{font-family:var(--tech);font-size:1rem;font-weight:700;background:transparent;color:var(--gold);border:1px solid var(--gold-d);padding:4px 12px;cursor:pointer}
 .lang button:hover{border-color:var(--mist);color:var(--mist)}
 .lang button[aria-pressed="true"]{background:var(--gold);color:var(--forest);border-color:var(--gold)}
+
+/* ===== partículas, runas em parallax e mobile ===== */
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#runas{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.rcol{position:absolute;top:0;font-family:var(--rune);text-align:center;white-space:pre;will-change:transform}
+.rcol.l{left:var(--x)}
+.rcol.r{right:var(--x)}
+.rcol.d3{--x:6px;font-size:2.6rem;color:var(--mist);opacity:.26;text-shadow:0 0 14px currentColor}
+.rcol.d2{--x:66px;font-size:1.7rem;color:var(--gold);opacity:.2;text-shadow:0 0 8px currentColor}
+.rcol.d1{--x:112px;font-size:1.05rem;color:var(--mist);opacity:.15}
+body{overflow-x:hidden;-webkit-text-size-adjust:100%}
+.lang button{min-height:40px;min-width:46px}
+@media(max-width:780px){
+  .rcol.d3{--x:2px;font-size:1.6rem;opacity:.2}
+  .rcol.d2{--x:30px;font-size:1.15rem;opacity:.15}
+  .rcol.d1{--x:50px;font-size:.85rem;opacity:.11}
+  nav{justify-content:center;text-align:center;gap:10px}
+  nav ul{width:100%;justify-content:center;flex-wrap:wrap;gap:6px 20px}
+  .lang{order:3}
+  .hero{padding-bottom:84px}
+  .sys{margin-top:34px;font-size:1rem}
+  .cta .btn{flex:1 1 100%;text-align:center}
+  .switch{padding:24px 18px}
+  .switch strong{font-size:3.8rem}
+  main>section+section::before{letter-spacing:.4em;font-size:1rem;overflow:hidden;white-space:nowrap}
+  .contact p{font-size:1.15rem}
+  .btn{word-break:break-word}
+}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+@media(max-width:420px){body{font-size:19px}.wrap{padding:0 18px}.hero h1{font-size:2.3rem}}
+
+/* brilho alaranjado nos cantos inferiores */
+#brasa{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6;
+  background:
+    radial-gradient(ellipse 55% 42% at 0% 100%,rgba(242,140,56,.6) 0%,rgba(232,100,30,.28) 40%,transparent 72%),
+    radial-gradient(ellipse 55% 42% at 100% 100%,rgba(242,140,56,.6) 0%,rgba(232,100,30,.28) 40%,transparent 72%),
+    linear-gradient(0deg,rgba(242,120,40,.18),transparent 22%)}
+@media(max-width:780px){#brasa{background:
+    radial-gradient(ellipse 90% 34% at 0% 100%,rgba(242,140,56,.6) 0%,rgba(232,100,30,.26) 45%,transparent 75%),
+    radial-gradient(ellipse 90% 34% at 100% 100%,rgba(242,140,56,.6) 0%,rgba(232,100,30,.26) 45%,transparent 75%),
+    linear-gradient(0deg,rgba(242,120,40,.18),transparent 20%)}}
 </style>
 </head>
 <body>
+<div id="brasa" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="runas" aria-hidden="true"></div>
 
 <header class="hero" id="topo">
   <div class="wrap">
@@ -176,7 +218,7 @@ footer{font-size:1rem;font-weight:700}
         <p data-i18n="a3">Também sou mestre em Engenharia de Software pela CESAR School, onde pesquisei o uso de LLMs em jogos sérios dentro do Unity. Antes disso, passei por design, concept art e muita prototipação.</p>
       </div>
       <div class="skills">
-        <div><b data-i18n="k1">Linguagens</b><span>C#, C++, SQL, POO, SOLID</span></div>
+        <div><b data-i18n="k1">Linguagens e fundamentos</b><span>C#, C++, SQL, POO, SOLID</span></div>
         <div><b>Engines</b><span>Unity, Unreal Engine 5, GameMaker Studio</span></div>
         <div><b data-i18n="k2">Gráficos</b><span data-i18n="ks2">Shader Graph, VFX Graph, partículas, otimização</span></div>
         <div><b data-i18n="k3">Plataformas</b><span data-i18n="ks3">Nintendo Switch, PC, iOS e Android</span></div>
@@ -278,7 +320,7 @@ b1:"See my projects",sw:"games ported and optimized for Nintendo Switch, all rel
 a1:"A bit about me",
 a2:"I've worked in games since 2022 and today I'm a Mid Game Developer at Game Nacional. Day to day I adapt input, UI, and save systems to console rules, hunt bottlenecks in the Profiler, and fix those freezes that only happen on real hardware.",
 a3:"I also hold a master's in Software Engineering from CESAR School, where I researched the use of LLMs in serious games within Unity. Before that I went through design, concept art, and a lot of prototyping.",
-k1:"Languages",k2:"Graphics",k3:"Platforms",k4:"Tools",ks2:"Shader Graph, VFX Graph, particles, optimization",ks3:"Nintendo Switch, PC, iOS and Android",
+k1:"Languages and fundamentals",k2:"Graphics",k3:"Platforms",k4:"Tools",ks2:"Shader Graph, VFX Graph, particles, optimization",ks3:"Nintendo Switch, PC, iOS and Android",
 p1:"Projects",pl:"The games already on the eShop come first. Then prototypes, my master's research, and where it all began.",
 t1:"Journey",tl:"From my first mobile prototype to games on the Switch.",
 th2:"GameForm · Game Developer, Designer and Concept Artist",
@@ -293,7 +335,7 @@ b1:"Voir mes projets",sw:"jeux portés et optimisés pour la Nintendo Switch, to
 a1:"Un peu sur moi",
 a2:"Je travaille dans le jeu vidéo depuis 2022 et je suis aujourd'hui Mid Game Developer chez Game Nacional. Au quotidien, j'adapte l'input, l'interface et les sauvegardes aux contraintes des consoles, je traque les goulots d'étranglement dans le Profiler et je règle ces blocages qui n'apparaissent que sur le vrai matériel.",
 a3:"J'ai aussi un master en génie logiciel de la CESAR School, où j'ai étudié l'usage des LLM dans les jeux sérieux sous Unity. Avant cela, j'ai touché au design, au concept art et à beaucoup de prototypage.",
-k1:"Langages",k2:"Graphismes",k3:"Plateformes",k4:"Outils",ks2:"Shader Graph, VFX Graph, particules, optimisation",ks3:"Nintendo Switch, PC, iOS et Android",
+k1:"Langages et fondamentaux",k2:"Graphismes",k3:"Plateformes",k4:"Outils",ks2:"Shader Graph, VFX Graph, particules, optimisation",ks3:"Nintendo Switch, PC, iOS et Android",
 p1:"Projets",pl:"Les jeux déjà sur l'eShop viennent en premier, puis les prototypes, la recherche du master et mes débuts.",
 t1:"Parcours",tl:"Du premier prototype mobile aux jeux sur Switch.",
 th2:"GameForm · Game Developer, Designer et Concept Artist",
@@ -384,6 +426,134 @@ let saved = null;
 try { saved = localStorage.getItem("lang"); } catch(e) {}
 const nv = (navigator.language || "pt").slice(0,2);
 setLang(["pt","en","fr"].includes(saved) ? saved : (["en","fr"].includes(nv) ? nv : "pt"));
+
+/* ===== partículas + runas em parallax ===== */
+(function(){
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* --- partículas: nascem no rodapé, sobem, encolhem e somem; intensificam ao rolar para baixo --- */
+  const cv = document.getElementById("fx"), cx = cv.getContext("2d");
+  const COL = ["242,140,56","232,119,46","255,168,90"];
+  const PR = "ᚠᚢᚦᚨᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ";
+  const pick = a => a[Math.floor(Math.random()*a.length)];
+  const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+  let W, H, ps = [], raf = 0, last = 0, base = 20, gap = 130, small = false, spawnT = 0;
+  let boost = 0, boostTarget = 0, stopT, lastY = window.scrollY || 0;
+  const sp = [], HOT = ["255,224,140","255,176,72","242,126,44"], glowEl = document.getElementById("brasa");
+  let sparkAcc = 0;
+
+  function spawn(y){
+    for (let k = 0; k < 10; k++){
+      const x = Math.random()*W;
+      if (ps.every(p => Math.hypot(p.x-x, p.y-y) > gap)){
+        ps.push({x, y, ch:pick(PR), c:pick(COL), s:small ? 16+Math.random()*12 : 22+Math.random()*18, v:28+Math.random()*28, ph:Math.random()*6.283});
+        return true;
+      }
+    }
+    return false;
+  }
+  function sizeCanvas(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight; small = W < 780;
+    cv.width = W*dpr; cv.height = H*dpr; cx.setTransform(dpr,0,0,dpr,0,0);
+    base = Math.round(Math.min(small ? 16 : 30, Math.max(10, W*H/50000)));
+    gap = small ? 90 : 130;
+    ps = [];
+    for (let t = 0; ps.length < base && t < base*40; t++) spawn(Math.random()*H);
+    if (reduce) draw(0);
+  }
+  function draw(t){
+    const dt = last ? Math.min(.05, (t-last)/1000) : 0; last = t;
+    boost += (boostTarget-boost) * Math.min(1, dt*(boostTarget > boost ? 6 : 1.2));
+    if (glowEl) glowEl.style.opacity = clamp(.6 + boost*.4 + (reduce ? 0 : .06*Math.sin(t/170) + .04*Math.sin(t/73+1)), 0, 1);
+    const speed = 1 + boost*6, target = Math.round(base*(1 + boost*2.5));
+    if (!reduce){
+      spawnT -= dt;
+      if (spawnT <= 0 && ps.length < target) spawnT = spawn(H+20) ? (.35+Math.random()*.5)/(1+boost*6) : .2;
+    }
+    cx.clearRect(0,0,W,H);
+    const glow = W >= 780;
+    cx.textAlign = "center"; cx.textBaseline = "middle";
+    for (let i = ps.length-1; i >= 0; i--){
+      const p = ps[i];
+      if (!reduce){ p.y -= p.v*speed*dt; p.x += Math.sin(t/2000+p.ph)*8*dt; }
+      const prog = clamp((H+20-p.y)/(H+20), 0, 1);
+      const size = p.s*(1-prog)*(1+boost*.25);
+      if (size < 3 || p.y < -10){ if (!reduce) ps.splice(i,1); continue; }
+      const a = Math.min(1, (.4+.3*Math.sin(t/1100+p.ph)) * clamp((H+20-p.y)/40,0,1) * Math.pow(1-prog,.5) * (1+boost*.5));
+      cx.save(); cx.translate(p.x, p.y); cx.rotate(Math.sin(t/2600+p.ph)*.25);
+      cx.font = size+"px 'Noto Sans Runic','Segoe UI Historic',serif";
+      cx.fillStyle = "rgba("+p.c+","+a+")";
+      cx.shadowColor = glow ? "rgba("+p.c+",.9)" : "transparent"; cx.shadowBlur = glow ? 10 : 0;
+      cx.fillText(p.ch, 0, 0); cx.restore();
+    }
+    /* faíscas de lareira */
+    if (!reduce){
+      sparkAcc = Math.min(3, sparkAcc + boost*(small ? 65 : 140)*dt);
+      while (sparkAcc >= 1 && sp.length < (small ? 130 : 240)){
+        sparkAcc -= 1;
+        const edge = Math.random() < .72, side = Math.random() < .5;
+        const x = edge ? (side ? Math.pow(Math.random(),2)*W*.5 : W - Math.pow(Math.random(),2)*W*.5) : Math.random()*W;
+        sp.push({x, y:H+8, ch:pick(PR), c:pick(HOT), s:(small?12:15)+Math.random()*(small?11:17),
+          vy:140+Math.random()*240, vx:(Math.random()-.5)*70 + (x < W/2 ? 25 : -25), age:0, life:1.2+Math.random()*1.5, ph:Math.random()*6.283});
+      }
+    }
+    cx.globalCompositeOperation = "lighter";
+    for (let i = sp.length-1; i >= 0; i--){
+      const q = sp[i]; q.age += dt;
+      const k = q.age/q.life, size = q.s*Math.pow(Math.max(0,1-k),.8);
+      if (k >= 1 || size < 2.5){ sp.splice(i,1); continue; }
+      q.y -= q.vy*dt; q.vy *= 1 - .35*dt; q.x += (q.vx + Math.sin(t/260+q.ph)*30)*dt;
+      const a = (1-k)*(.75+.25*Math.sin(t/60+q.ph*3));
+      cx.save(); cx.translate(q.x, q.y); cx.rotate(Math.sin(t/300+q.ph)*.5);
+      cx.font = size+"px 'Noto Sans Runic','Segoe UI Historic',serif";
+      cx.fillStyle = "rgba("+q.c+","+a+")"; cx.fillText(q.ch, 0, 0); cx.restore();
+    }
+    cx.globalCompositeOperation = "source-over";
+  }
+  function loop(t){ draw(t); raf = requestAnimationFrame(loop); }
+  document.addEventListener("visibilitychange", () => {
+    if (reduce) return;
+    if (document.hidden) cancelAnimationFrame(raf); else { last = 0; raf = requestAnimationFrame(loop); }
+  });
+  addEventListener("scroll", () => {
+    const y = window.scrollY || 0, dy = y - lastY; lastY = y;
+    if (reduce) return;
+    if (dy > 0){ boostTarget = Math.min(1, .6 + dy/40); clearTimeout(stopT); stopT = setTimeout(() => { boostTarget = 0; }, 160); }
+    else if (dy < 0){ boostTarget = 0; }
+  }, {passive:true});
+
+  /* --- runas em 3 camadas (esquerda e direita) --- */
+  const box = document.getElementById("runas");
+  const R = "ᚠᚢᚦᚨᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ";
+  const layers = [{c:"d1", speed:.14}, {c:"d2", speed:.28}, {c:"d3", speed:.5}];
+  let cols = [];
+  function buildRunes(){
+    box.innerHTML = ""; cols = [];
+    layers.forEach((ly, li) => ["l","r"].forEach((side, si) => {
+      const el = document.createElement("div");
+      el.className = "rcol "+side+" "+ly.c;
+      box.appendChild(el);
+      const fs = parseFloat(getComputedStyle(el).fontSize);
+      const lh = fs*1.7; el.style.lineHeight = lh+"px";
+      const count = Math.ceil(innerHeight/lh) + 3;
+      const seq = []; let k = li*7 + si*11;
+      for (let i=0;i<count;i++){ k = (k*5+3) % R.length; seq.push(R[k]); }
+      el.textContent = seq.concat(seq).join("\n");
+      cols.push({el, speed:ly.speed, period:count*lh});
+    }));
+    move();
+  }
+  function move(){
+    const y = window.scrollY || 0;
+    for (const c of cols) c.el.style.transform = "translate3d(0,"+(-((y*c.speed) % c.period))+"px,0)";
+  }
+  let tick = false;
+  addEventListener("scroll", () => { if (reduce || tick) return; tick = true; requestAnimationFrame(() => { move(); tick = false; }); }, {passive:true});
+  let rs;
+  addEventListener("resize", () => { clearTimeout(rs); rs = setTimeout(() => { sizeCanvas(); buildRunes(); }, 150); });
+  sizeCanvas(); buildRunes();
+  if (!reduce) raf = requestAnimationFrame(loop);
+})();
 </script>
 </body>
 </html>
